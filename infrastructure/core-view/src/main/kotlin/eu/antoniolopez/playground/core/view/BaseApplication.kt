@@ -3,11 +3,6 @@ package eu.antoniolopez.playground.core.view
 import android.app.Application
 import android.os.StrictMode
 import eu.antoniolopez.playground.core.di.setApplicationContext
-import eu.antoniolopez.playground.core.logging.CrashReportingTree
-import eu.antoniolopez.playground.threading.APPLICATION_BG
-import eu.antoniolopez.playground.threading.APPLICATION_MAIN
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import org.kodein.di.KodeinAware
 import timber.log.Timber
 
@@ -17,7 +12,6 @@ abstract class BaseApplication : Application(), KodeinAware {
         super.onCreate()
         setApplicationContext()
         setupStrictMode()
-        setupThreadingContexts()
         setupTimber()
     }
 
@@ -43,15 +37,7 @@ abstract class BaseApplication : Application(), KodeinAware {
 
     private fun setupTimber() {
         if (BuildConfig.DEBUG) {
-            // Set the debug logging.
             Timber.plant(Timber.DebugTree())
-        } else {
-            Timber.plant(CrashReportingTree())
         }
-    }
-
-    private fun setupThreadingContexts() {
-        APPLICATION_MAIN = Dispatchers.Main + CoroutineExceptionHandler { _, error -> throw error }
-        APPLICATION_BG = Dispatchers.Default + CoroutineExceptionHandler { _, error -> throw error }
     }
 }

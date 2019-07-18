@@ -1,3 +1,3 @@
 package eu.antoniolopez.playground.exceptions
 
-class BadRequestException : NetworkException()
+class BadRequestException(override val message: String? = null) : NetworkException(message)

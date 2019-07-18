@@ -46,7 +46,6 @@ android {
     packagingOptions {
         pickFirst 'META-INF/main.kotlin_module'
         pickFirst 'META-INF/atomicfu.kotlin_module'
-        pickFirst 'META-INF/kotlinx-coroutines-core.kotlin_module'
     }
 }
 
@@ -59,11 +58,9 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 dependencies {
     implementation project(':infrastructure:core')
     implementation project(':infrastructure:core-view')
-    implementation project(':infrastructure:threading')
     implementation project(':infrastructure:navigation')
 
-    implementation project(':feature:hello-world')
-    implementation project(':feature:goodbye-world')
+    implementation project(':feature:dashboard')
 
     implementation app_compat
     implementation design

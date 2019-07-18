@@ -1,3 +1,3 @@
 package eu.antoniolopez.playground.exceptions
 
-class NotFoundException : NetworkException()
+class NotFoundException(override val message: String? = null) : Throwable(message)

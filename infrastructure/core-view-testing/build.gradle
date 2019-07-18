@@ -7,8 +7,6 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 
 dependencies {
-    implementation project(':infrastructure:threading')
-
     implementation kotlin_JDK8
     implementation androidx_core
     implementation app_compat

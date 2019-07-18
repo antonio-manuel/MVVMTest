@@ -1,21 +1,13 @@
 package eu.antoniolopez.playground.core.view
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.DialogFragment
-import eu.antoniolopez.playground.core.view.lifecycle.LifecycleFragment
-import java.io.Serializable
+import androidx.fragment.app.Fragment
 
-abstract class BaseFragment : LifecycleFragment() {
-
-    companion object {
-        const val EXTRA_VALUE = "extra:value"
-    }
+abstract class BaseFragment : Fragment() {
 
     private val layoutResourceId by lazy {
         onRequestLayoutResourceId()
@@ -23,9 +15,6 @@ abstract class BaseFragment : LifecycleFragment() {
 
     private var onFragmentReadyListener: (() -> Unit)? = null
     private var isReady = false
-
-    protected val isViewReady: Boolean
-        get() = isReady
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,28 +33,7 @@ abstract class BaseFragment : LifecycleFragment() {
         onFragmentReadyListener?.invoke()
     }
 
-    fun setOnFragmentReadyListener(listener: () -> Unit) {
-        this.onFragmentReadyListener = listener
-    }
-
     open fun onSetupListeners() {}
 
     open fun onViewReady(savedInstanceState: Bundle?) {}
-
-    fun renderDialog(fragment: DialogFragment, idDialog: String) {
-        val ft = childFragmentManager.beginTransaction()
-        val prev = childFragmentManager.findFragmentByTag(idDialog)
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-        fragment.show(ft, idDialog)
-    }
-
-    fun finishWithResult(value: Serializable) {
-        val arguments = Intent()
-        arguments.putExtra(EXTRA_VALUE, value)
-        activity?.setResult(Activity.RESULT_OK, arguments)
-        activity?.finish()
-    }
 }

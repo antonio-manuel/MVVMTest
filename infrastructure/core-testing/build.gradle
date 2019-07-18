@@ -2,8 +2,6 @@ apply from: "${rootDir}/buildsystem/android-module.gradle"
 apply plugin: "de.mannodermaus.android-junit5"
 
 dependencies {
-    implementation project(':infrastructure:threading')
-
     implementation kotlin_JDK8
     api jupiter_api
     api jupiter_engine
@@ -11,4 +9,5 @@ dependencies {
     api mockk_android
     api kotlin_test_junit
     api assertJ
+    api rxjava
 }

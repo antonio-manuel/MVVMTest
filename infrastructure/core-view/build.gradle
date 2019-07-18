@@ -11,18 +11,13 @@ dependencies {
     implementation project(":infrastructure:core")
     implementation project(":infrastructure:exceptions")
 
-    // Views
     api app_compat
+    api lifecycle
     api design
     api androidx_core
+    api rxjava
     implementation ktx
     implementation constraint_layout
-
-    // Dependency injection
     implementation kodein
-
-    api arrow_datatypes
-
-    // Log
     implementation timber
 }

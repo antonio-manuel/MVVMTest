@@ -1,3 +1,3 @@
 package eu.antoniolopez.playground.exceptions
 
-class InternalErrorException : NetworkException()
+class InternalErrorException(override val message: String? = null) : Throwable(message)
