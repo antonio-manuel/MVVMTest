@@ -26,8 +26,10 @@ ext {
     test_rules_version = "1.2.0"
     android_junit_version = "1.1.1"
     android_junit_ktx_version = "1.1.1"
+    arch_core_version = "1.1.1"
 
     kotlin_JDK8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${project.kotlin_version}"
+    kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_version}"
 
     ktx = "androidx.core:core-ktx:${android_ktx_version}"
     androidx_core = "androidx.core:core:${support_version}"
@@ -68,4 +70,5 @@ ext {
     android_junit = "androidx.test.ext:junit:${android_junit_version}"
     android_junit_ktx = "androidx.test.ext:junit-ktx:${android_junit_ktx_version}"
     espresso_core = "androidx.test.espresso:espresso-core:${expresso_core_version}"
+    arch_core = "android.arch.core:core-testing:${arch_core_version}"
 }
