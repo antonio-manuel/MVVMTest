@@ -8,7 +8,7 @@ ext {
     coroutines_version = "1.2.2"
     arrow_version = "0.9.0"
     timber_version = "4.7.1"
-    kodein_version = "6.2.1"
+    kodein_version = "6.3.3"
 
     //Testing
     mockk_version = "1.9.2"
