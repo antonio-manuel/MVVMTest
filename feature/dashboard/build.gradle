@@ -12,6 +12,7 @@ dependencies {
     implementation kodein_conf
     implementation mpchart
     implementation cardview
+    implementation timber
 
     testImplementation project(':infrastructure:core-testing')
     androidTestImplementation project(':infrastructure:core-view-testing')
