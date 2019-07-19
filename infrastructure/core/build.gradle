@@ -13,4 +13,6 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     }
     implementation timber
+
+    testImplementation project(':infrastructure:core-testing')
 }

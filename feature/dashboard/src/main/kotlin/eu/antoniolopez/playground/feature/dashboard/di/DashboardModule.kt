@@ -19,11 +19,22 @@ import org.kodein.di.generic.provider
 
 internal val dashboardModule = Kodein.Module(name = "dashboardModule") {
     bind<ValueMapper>() with provider { ValueMapper() }
-    bind<MarketMapper>() with provider { MarketMapper(instance()) }
+    bind<MarketMapper>() with provider { MarketMapper(valueMapper = instance()) }
     bind<LineDataMapper>() with provider { LineDataMapper() }
-    bind<MarketDataSource>() with provider { ApiMarketDataSource(instance(), instance()) }
-    bind<Cache<Market>>() with provider { MemoryCache(instance(), instance(), Market::class.java) }
-    bind<MarketRepository>() with provider { DataMarketRepository(instance(), instance()) }
-    bind<GetMarketUseCase>() with provider { GetMarketUseCase(instance()) }
-    bind<DashboardViewModel>() with provider { DashboardViewModel(instance()) }
+    bind<MarketDataSource>() with provider {
+        ApiMarketDataSource(marketApi = instance(), marketMapper = instance())
+    }
+    bind<Cache<Market>>() with provider {
+        MemoryCache(
+            context = instance(),
+            moshi = instance(),
+            timeUtils = instance(),
+            clazz = Market::class.java
+        )
+    }
+    bind<MarketRepository>() with provider {
+        DataMarketRepository(marketDataSource = instance(), cache = instance())
+    }
+    bind<GetMarketUseCase>() with provider { GetMarketUseCase(marketRepository = instance()) }
+    bind<DashboardViewModel>() with provider { DashboardViewModel(getMarketUseCase = instance()) }
 }

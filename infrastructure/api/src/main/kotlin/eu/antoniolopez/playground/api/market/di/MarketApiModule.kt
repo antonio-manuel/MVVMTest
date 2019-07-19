@@ -14,5 +14,5 @@ val marketApiModule = Kodein.Module(name = "marketApiModule") {
         val retrofit: Retrofit = instance()
         retrofit.create(MarketRetrofitService::class.java)
     }
-    bind<MarketApi>() with singleton { RetrofitMarketApi(instance()) }
+    bind<MarketApi>() with singleton { RetrofitMarketApi(marketRetrofitService = instance()) }
 }
