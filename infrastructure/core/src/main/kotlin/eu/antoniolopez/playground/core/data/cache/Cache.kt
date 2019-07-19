@@ -1,8 +1,8 @@
 package eu.antoniolopez.playground.core.data.cache
 
-import arrow.core.Try
+import io.reactivex.Single
 
 interface Cache<T> {
     fun updateValue(value: T)
-    fun getValue(): Try<T>
+    fun getValue(): Single<T>
 }

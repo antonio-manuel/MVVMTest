@@ -14,13 +14,11 @@ class DataMarketRepository(
         get() = loadMarket()
 
     private fun loadMarket(): Single<Market> =
-        cache.getValue().fold(
-            ifFailure = {
+        cache.getValue()
+            .onErrorResumeNext {
                 marketDataSource.market
                     .doOnSuccess {
                         cache.updateValue(it)
                     }
-            },
-            ifSuccess = { Single.just(it) }
-        )
+            }
 }
