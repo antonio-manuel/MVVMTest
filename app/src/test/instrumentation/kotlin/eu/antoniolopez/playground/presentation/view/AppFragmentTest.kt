@@ -5,6 +5,7 @@ import eu.antoniolopez.playground.di.appComponent
 import eu.antoniolopez.playground.navigation.Navigator
 import eu.antoniolopez.playground.presentation.viewmodel.MainViewModel
 import io.mockk.mockk
+import org.junit.Test
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.singleton
 
@@ -20,5 +21,10 @@ class AppFragmentTest : InstrumentationUnitTest() {
             bind<MainViewModel>(overrides = true) with singleton { mockViewModel }
             bind<Navigator>(overrides = true) with singleton { mockNavigator }
         }
+    }
+
+    @Test
+    fun testThings() {
+        assert(true)
     }
 }

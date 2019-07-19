@@ -6,4 +6,3 @@ import eu.antoniolopez.playground.core.view.BaseActivity
 class MainActivity : BaseActivity() {
     override fun onRequestFragment(): Fragment = MainFragment.newInstance()
 }
-

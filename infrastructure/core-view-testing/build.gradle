@@ -8,6 +8,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 dependencies {
     implementation kotlin_JDK8
+    implementation kotlin_reflect
     implementation androidx_core
     implementation app_compat
     api test_core

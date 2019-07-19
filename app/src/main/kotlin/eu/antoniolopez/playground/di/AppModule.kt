@@ -6,5 +6,5 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
 
 val appModule = Kodein.Module(name = "appModule") {
-   bind<MainViewModel>() with provider { MainViewModel() }
+    bind<MainViewModel>() with provider { MainViewModel() }
 }
