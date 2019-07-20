@@ -7,13 +7,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import eu.antoniolopez.playground.core.view.testing.InstrumentationUnitTest
 import eu.antoniolopez.playground.feature.dashboard.R
 import eu.antoniolopez.playground.feature.dashboard.di.dashboardComponent
-import eu.antoniolopez.playground.feature.dashboard.domain.model.Market
-import eu.antoniolopez.playground.feature.dashboard.presentation.view.chart.LineDataMapper
+import eu.antoniolopez.playground.feature.dashboard.presentation.model.ChartData
+import eu.antoniolopez.playground.feature.dashboard.presentation.view.chart.ChartDrawer
 import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.DashboardState
 import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.DashboardViewModel
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.hamcrest.CoreMatchers.not
 import org.junit.Test
 import org.kodein.di.generic.bind
@@ -22,7 +21,7 @@ import org.kodein.di.generic.singleton
 class DashboardFragmentTest : InstrumentationUnitTest() {
 
     private val mockViewModel: DashboardViewModel = mockk(relaxed = true)
-    private val mockLineDataMapper: LineDataMapper = mockk(relaxed = true)
+    private val mockChartDrawer: ChartDrawer = mockk(relaxed = true)
     private lateinit var liveData: MutableLiveData<DashboardState>
 
     override fun onRequestFragment(): DashboardFragment = DashboardFragment.newInstance()
@@ -30,7 +29,7 @@ class DashboardFragmentTest : InstrumentationUnitTest() {
     override fun onPrepareInjection() {
         dashboardComponent.addConfig {
             bind<DashboardViewModel>(overrides = true) with singleton { mockViewModel }
-            bind<LineDataMapper>(overrides = true) with singleton { mockLineDataMapper }
+            bind<ChartDrawer>(overrides = true) with singleton { mockChartDrawer }
         }
     }
 
@@ -61,10 +60,9 @@ class DashboardFragmentTest : InstrumentationUnitTest() {
 
     @Test
     fun whenRenderDataStateThenCardIsVisible() {
-        val market: Market = mockk(relaxed = true)
-        liveData.postValue(DashboardState.DataFetched(market))
+        val chartData: ChartData = mockk(relaxed = true)
+        liveData.postValue(DashboardState.DataFetched(chartData))
 
-        verify { mockLineDataMapper.apply(market) }
         onView(withId(R.id.progress)).check(matches(not(isDisplayed())))
         onView(withId(R.id.chart)).check(matches(isDisplayed()))
         onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))

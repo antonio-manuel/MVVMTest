@@ -2,10 +2,12 @@ package eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel
 
 import eu.antoniolopez.playground.core.view.BaseViewModel
 import eu.antoniolopez.playground.feature.dashboard.domain.usecase.GetMarketUseCase
+import eu.antoniolopez.playground.feature.dashboard.presentation.mapper.ChartDataMapper
 import io.reactivex.disposables.Disposable
 
 class DashboardViewModel(
-    private val getMarketUseCase: GetMarketUseCase
+    private val getMarketUseCase: GetMarketUseCase,
+    private val chartDataMapper: ChartDataMapper
 ) : BaseViewModel<DashboardState>() {
 
     init {
@@ -15,6 +17,7 @@ class DashboardViewModel(
 
     private fun getMarketData(): Disposable =
         getMarketUseCase.execute()
+            .map(chartDataMapper)
             .subscribe(
                 { result ->
                     mutableState.postValue(DashboardState.DataFetched(result))

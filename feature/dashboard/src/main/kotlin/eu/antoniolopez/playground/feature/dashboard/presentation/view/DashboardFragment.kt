@@ -8,8 +8,8 @@ import eu.antoniolopez.playground.core.view.extension.getViewModel
 import eu.antoniolopez.playground.core.view.extension.observe
 import eu.antoniolopez.playground.feature.dashboard.R
 import eu.antoniolopez.playground.feature.dashboard.di.dashboardComponent
-import eu.antoniolopez.playground.feature.dashboard.domain.model.Market
-import eu.antoniolopez.playground.feature.dashboard.presentation.view.chart.LineDataMapper
+import eu.antoniolopez.playground.feature.dashboard.presentation.model.ChartData
+import eu.antoniolopez.playground.feature.dashboard.presentation.view.chart.ChartDrawer
 import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.DashboardState
 import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.DashboardViewModel
 import kotlinx.android.synthetic.main.dashboard_fragment.*
@@ -23,7 +23,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: DashboardViewModel
-    private val lineDataMapper: LineDataMapper by dashboardComponent.instance()
+    private val chartDrawer: ChartDrawer by dashboardComponent.instance()
 
     override fun onRequestLayoutResourceId(): Int = R.layout.dashboard_fragment
 
@@ -35,7 +35,7 @@ class DashboardFragment : BaseFragment() {
     private fun processState(dashboardState: DashboardState?) {
         when (dashboardState) {
             is DashboardState.Loading -> showLoading()
-            is DashboardState.DataFetched -> renderMarket(dashboardState.market)
+            is DashboardState.DataFetched -> renderMarket(dashboardState.chartData)
             is DashboardState.Error -> renderError(dashboardState.message)
         }
     }
@@ -44,8 +44,8 @@ class DashboardFragment : BaseFragment() {
         progress.visibility = View.VISIBLE
     }
 
-    private fun renderMarket(market: Market) {
-        chart.data = lineDataMapper.apply(market)
+    private fun renderMarket(chartData: ChartData) {
+        chartDrawer.draw(chart, chartData)
         chart.visibility = View.VISIBLE
         no_data.visibility = View.GONE
         progress.visibility = View.GONE
