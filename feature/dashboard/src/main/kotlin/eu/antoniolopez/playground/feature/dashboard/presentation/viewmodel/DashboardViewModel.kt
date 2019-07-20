@@ -9,6 +9,7 @@ class DashboardViewModel(
 ) : BaseViewModel<DashboardState>() {
 
     init {
+        mutableState.postValue(DashboardState.Loading)
         compositeDisposable.add(getMarketData())
     }
 
@@ -16,10 +17,10 @@ class DashboardViewModel(
         getMarketUseCase.execute()
             .subscribe(
                 { result ->
-                    mutableState.postValue(DashboardState.RenderData(result))
+                    mutableState.postValue(DashboardState.DataFetched(result))
                 },
                 { error ->
-                    mutableState.postValue(DashboardState.ShowError(error.message ?: ""))
+                    mutableState.postValue(DashboardState.Error(error.message ?: ""))
                 }
             )
 }

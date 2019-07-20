@@ -41,20 +41,32 @@ class DashboardFragmentTest : InstrumentationUnitTest() {
     }
 
     @Test
+    fun whenLoadingStateThenLoadingIsShown() {
+        liveData.postValue(DashboardState.Loading)
+
+        onView(withId(R.id.progress)).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun whenErrorStateThenCardIsInvisibleAndErrorDisplayed() {
         val error = "ERROR"
-        liveData.postValue(DashboardState.ShowError(error))
+        liveData.postValue(DashboardState.Error(error))
 
-        onView(withId(R.id.card)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.textToBeChanged)).check((matches(withText(error))))
+        onView(withId(R.id.progress)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.chart)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.no_data)).check(matches(isDisplayed()))
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(error)))
     }
 
     @Test
     fun whenRenderDataStateThenCardIsVisible() {
         val market: Market = mockk(relaxed = true)
-        liveData.postValue(DashboardState.RenderData(market))
+        liveData.postValue(DashboardState.DataFetched(market))
 
         verify { mockLineDataMapper.apply(market) }
-        onView(withId(R.id.card)).check(matches(isDisplayed()))
+        onView(withId(R.id.progress)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.chart)).check(matches(isDisplayed()))
+        onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))
     }
 }

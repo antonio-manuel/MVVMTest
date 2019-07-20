@@ -2,6 +2,7 @@ package eu.antoniolopez.playground.feature.dashboard.presentation.view
 
 import android.os.Bundle
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import eu.antoniolopez.playground.core.view.BaseFragment
 import eu.antoniolopez.playground.core.view.extension.getViewModel
 import eu.antoniolopez.playground.core.view.extension.observe
@@ -33,18 +34,27 @@ class DashboardFragment : BaseFragment() {
 
     private fun processState(dashboardState: DashboardState?) {
         when (dashboardState) {
-            is DashboardState.RenderData -> renderMarket(dashboardState.market)
-            is DashboardState.ShowError -> renderError(dashboardState.message)
+            is DashboardState.Loading -> showLoading()
+            is DashboardState.DataFetched -> renderMarket(dashboardState.market)
+            is DashboardState.Error -> renderError(dashboardState.message)
         }
+    }
+
+    private fun showLoading() {
+        progress.visibility = View.VISIBLE
     }
 
     private fun renderMarket(market: Market) {
         chart.data = lineDataMapper.apply(market)
-        card.visibility = View.VISIBLE
+        chart.visibility = View.VISIBLE
+        no_data.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     private fun renderError(text: String) {
-        textToBeChanged.text = text
-        card.visibility = View.GONE
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
+        chart.visibility = View.GONE
+        no_data.visibility = View.VISIBLE
+        progress.visibility = View.GONE
     }
 }

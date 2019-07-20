@@ -22,7 +22,7 @@ class DashboardViewModelTest : UnitTest() {
 
         sut = DashboardViewModel(mockGetMarketUseCase)
 
-        assertTrue(sut.state.value is DashboardState.RenderData)
+        assertTrue(sut.state.value is DashboardState.DataFetched)
     }
 
     @Test
@@ -31,6 +31,6 @@ class DashboardViewModelTest : UnitTest() {
 
         sut = DashboardViewModel(mockGetMarketUseCase)
 
-        assertTrue(sut.state.value is DashboardState.ShowError)
+        assertTrue(sut.state.value is DashboardState.Error)
     }
 }
