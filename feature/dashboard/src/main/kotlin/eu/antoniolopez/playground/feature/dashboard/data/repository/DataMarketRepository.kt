@@ -17,8 +17,8 @@ class DataMarketRepository(
         cache.getValue()
             .onErrorResumeNext {
                 marketDataSource.market
-                    .doOnSuccess {
-                        cache.updateValue(it)
+                    .doOnSuccess { market ->
+                        cache.updateValue(market)
                     }
             }
 }
