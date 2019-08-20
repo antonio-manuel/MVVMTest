@@ -13,7 +13,6 @@ import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.Dashb
 import eu.antoniolopez.playground.feature.dashboard.presentation.viewmodel.DashboardViewModel
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.hamcrest.CoreMatchers.not
 import org.junit.Test
 import org.kodein.di.generic.bind
@@ -64,7 +63,6 @@ class DashboardFragmentTest : InstrumentationUnitTest() {
         val chartData: ChartData = mockk(relaxed = true)
         liveData.postValue(DashboardState.DataFetched(chartData))
 
-        verify { mockChartDrawer.draw(any(), any()) }
         onView(withId(R.id.progress)).check(matches(not(isDisplayed())))
         onView(withId(R.id.chart)).check(matches(isDisplayed()))
         onView(withId(R.id.no_data)).check(matches(not(isDisplayed())))
